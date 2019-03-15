@@ -23,6 +23,14 @@ public class GamePiece {
 		this.imageURL = imageURL;
 	}
 	
+	public Ability getAbility() {
+		return ability;
+	}
+	
+	public int getAbilityType() {
+		return ability.getType();
+	}
+	
 	public String getAbilityName() {
 		return ability.getName();
 	}
