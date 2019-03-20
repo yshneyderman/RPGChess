@@ -12,6 +12,7 @@ public class GamePiece {
 	private String imageURL;
 	private String name;
 	private int xp;
+	private boolean selected;
 	
 	public GamePiece(String name, String team, int x, int y, int health, int damage, int level, Ability ability, String imageURL) {
 		this.team = team;
@@ -25,6 +26,7 @@ public class GamePiece {
 		this.ability = ability;
 		this.imageURL = imageURL;
 		this.xp = 0;
+		this.selected = false;
 	}
 	
 	public String getName() {
@@ -128,5 +130,16 @@ public class GamePiece {
 		else {
 			this.setLevel(9);
 		}
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	public void select() {
+		selected = true;
+	}
+
+	public void deselect() {
+		selected = false;
 	}
 }

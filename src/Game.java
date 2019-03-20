@@ -198,18 +198,19 @@ public class Game {
 		characters = options;
 		
 
-		//imports the xp of the pieces
+		//imports the 10 pieces
 		FileReader read1 = new FileReader("importPieces.txt");
 		Scanner sc1 = new Scanner(read1);
 		int index = 0;
 		while (sc1.hasNextLine()) {
 			String lineArg = sc1.nextLine();
 			board[index] = 	options[Integer.parseInt(lineArg)];
+			options[Integer.parseInt(lineArg)].select();
 			index++;
 		}
 		sc1.close();
 		
-		//imports the 10 pieces and saves them in the board
+		//imports thhe xp of all the pieces
 		FileReader read2 = new FileReader("save.txt");
 		Scanner sc2 = new Scanner(read2);
 		index = 0;
@@ -266,5 +267,16 @@ public class Game {
 	//returns true if the two passed pieces are different colors, false if they are the same color
 	public boolean isOpposite(GamePiece piece1, GamePiece piece2) {
 		return(!piece1.getTeam().equals(piece2.getTeam()));
+	}
+
+	public void select(int i, int j) {
+		int index = 10*j + i-(i/3);
+		System.out.println(Integer.toString(index));
+		if(characters[index].isSelected()) {
+			characters[index].deselect();
+		}
+		else {
+			characters[index].select();	
+		}
 	}
 }

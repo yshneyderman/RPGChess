@@ -97,10 +97,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.drawImage(whiteHighlight.getImage(), 50, 30, 245, 70, this);
 			}
 			if(highlight) {
-				g.drawImage(whiteHighlight.getImage(), highlightX, highlightY, 80, 120, this);
+				int x = (((highlightX-85)/92)*92) + 75;
+				int y = ((highlightY-220)/140)*140 + 210;
+				g.drawImage(whiteHighlight.getImage(), x, y, 92, 140, this);
 			}
 			//starting coords of the first option
-			int x = 70;
+			int x = 85;
 			int y = 220;
 			//draws out all the options
 			for(int i = 0; i<10; ++i) {
@@ -115,17 +117,20 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.drawString(p.getName(), x, 95 + y);
 				g.drawString("Lvl: " + Integer.toString(p.getLevel()), x, 106 + y);
 				g.drawString("Dmg: " + Integer.toString(p.getDamage()), 30 + x, 106 + y);
+				if(p.isSelected()) {
+					g.drawImage(whiteHighlight.getImage(), x-10, y-10, 92, 140, this);
+				}
 				g.drawImage(p.getImage().getImage(),3 + x, 25 + y - spriteAnimation, 60, 60+spriteAnimation, this);
 				g.drawString("XP: " + Integer.toString(p.getXP()), x, 117 + y);
 				//change this info when adding more units
 				if((i+1)%2==0) {
-					x = x + 281;
+					x = x + 276;
 				}
 				else {
-					x = x + 85;
+					x = x + 92;
 				}
 				if((i+1)%10 == 0) {
-					x = 70;
+					x = 85;
 					y = y + 132;
 				}
 			}
@@ -280,6 +285,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				highlightBack = false;
 				teamSelect = false;
 			}
+			else if(teamSelect && e.getY() < 920 && e.getY() > 220 && e.getX() > 50 && e.getX() < 1850 && (((e.getX()-85)/92)+1)%4 != 0) {
+				game.select((((e.getX()-85)/92)), ((e.getY()-220)/140));
+			}
 		}
 		//if game is already begun
 		else if(game.isBegun()){
@@ -349,7 +357,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			//if on the team select screen
 			else if(teamSelect) {
 				//if in the character selection area
-				if(e.getY() < 925 && e.getY() > 220 && e.getX() > 50 && e.getX() < 1850) {
+				if(e.getY() < 920 && e.getY() > 220 && e.getX() > 50 && e.getX() < 1850 && (((e.getX()-85)/92)+1)%4 != 0) {
 					highlightX = e.getX();
 					highlightY = e.getY();
 					highlight = true;
