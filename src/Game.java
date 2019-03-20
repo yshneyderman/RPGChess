@@ -159,22 +159,22 @@ public class Game {
 	//imports the chosen pieces
 	public void importPieces(GamePiece[] board) throws FileNotFoundException {
 		//all possible gamePiece types
-		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "mage.PNG");
-		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 200, 1, new Ability("Incantation", null , 1, 0), "sorcerer.PNG");
-		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "knight.PNG");
-		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "paladin.PNG");
-		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "archer.PNG");
-		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "bowman.PNG");
-		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "lord.PNG");
-		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 15, 1, new Ability("Majesty", null, 1, 0), "king.PNG");
-		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "assassin.PNG");
-		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 100, 30, 1, new Ability("Swipe", null, 1, 0), "thief.PNG");
+		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "images//mage.PNG");
+		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 200, 1, new Ability("Incantation", null , 1, 0), "images//sorcerer.PNG");
+		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//knight.PNG");
+		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "images//paladin.PNG");
+		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "images//archer.PNG");
+		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "images//bowman.PNG");
+		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//lord.PNG");
+		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 15, 1, new Ability("Majesty", null, 1, 0), "images//king.PNG");
+		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//assassin.PNG");
+		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 100, 30, 1, new Ability("Swipe", null, 1, 0), "images//thief.PNG");
 		
-		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "enemyMage.PNG");
-		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "enemyKnight.PNG");
-		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 0), "enemyArcher.PNG");
-		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "enemyLord.PNG");
-		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "enemyAssassin.PNG");
+		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "images//enemyMage.PNG");
+		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//enemyKnight.PNG");
+		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 0), "images//enemyArcher.PNG");
+		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//enemyLord.PNG");
+		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//enemyAssassin.PNG");
 		
 		//sets ability descriptions for each type
 		mage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
@@ -205,7 +205,7 @@ public class Game {
 		while (sc1.hasNextLine()) {
 			String lineArg = sc1.nextLine();
 			board[index] = 	options[Integer.parseInt(lineArg)];
-			options[Integer.parseInt(lineArg)].select();
+			options[Integer.parseInt(lineArg)].select(characters[index],characters, this, board);
 			index++;
 		}
 		sc1.close();
@@ -271,12 +271,11 @@ public class Game {
 
 	public void select(int i, int j) {
 		int index = 10*j + i-(i/3);
-		System.out.println(Integer.toString(index));
 		if(characters[index].isSelected()) {
-			characters[index].deselect();
+			characters[index].deselect(characters[index], characters, this, board);
 		}
 		else {
-			characters[index].select();	
+			characters[index].select(characters[index], characters, this, board);	
 		}
 	}
 }

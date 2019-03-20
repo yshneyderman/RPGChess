@@ -1,3 +1,8 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 import javax.swing.ImageIcon;
 
 public class GamePiece {
@@ -135,11 +140,56 @@ public class GamePiece {
 	public boolean isSelected() {
 		return selected;
 	}
-	public void select() {
+	public void select(GamePiece piece, GamePiece[] characters, Game game, GamePiece[] board) {
 		selected = true;
+		try {
+			writeSelection(piece, characters);
+			reImport(piece, characters, board);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void deselect() {
+	public void deselect(GamePiece piece, GamePiece[] characters, Game game, GamePiece[] board) {
 		selected = false;
+		try {
+			writeSelection(piece, characters);
+			reImport(piece, characters, board);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	public void reImport(GamePiece piece, GamePiece[] characters, GamePiece[] board) {
+		//imports the 10 pieces
+		FileReader read1;
+		try {
+			read1 = new FileReader("importPieces.txt");
+			Scanner sc1 = new Scanner(read1);
+			int index = 0;
+			while (sc1.hasNextLine() && index<10) {
+				String lineArg = sc1.nextLine();
+				board[index] = 	characters[Integer.parseInt(lineArg)];
+				characters[Integer.parseInt(lineArg)].selected = true;
+				index++;
+			}
+			sc1.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//writes the selected to a file
+	public void writeSelection(GamePiece piece, GamePiece[] characters) throws FileNotFoundException {
+		PrintWriter write = new PrintWriter("importPieces.txt");
+		for(int i = 0; i < characters.length; ++i){
+			if(characters[i].isSelected()) {
+				write.write(Integer.toString(i) + "\n");
+			}
+		}
+		write.close();
+		}
 }

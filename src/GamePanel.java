@@ -8,12 +8,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	//starts a new game
 	Game game = new Game();
 	//background forest
-	private ImageIcon forestBackGround = new ImageIcon("BG.PNG");
-	private ImageIcon startScreen = new ImageIcon("StartScreen.PNG");
-	private ImageIcon teamSelectScreen = new ImageIcon("TeamSelectScreen.PNG");
+	private ImageIcon forestBackGround = new ImageIcon("images//BG.PNG");
+	private ImageIcon startScreen = new ImageIcon("images//StartScreen.PNG");
+	private ImageIcon teamSelectScreen = new ImageIcon("images//TeamSelectScreen.PNG");
 	
-	private ImageIcon whiteHighlight = new ImageIcon("whiteHighlight.PNG");
-	private ImageIcon victoryBorder = new ImageIcon("VictoryBorder.PNG");
+	private ImageIcon whiteHighlight = new ImageIcon("images//whiteHighlight.PNG");
+	private ImageIcon victoryBorder = new ImageIcon("images//VictoryBorder.PNG");
 	
 	//board info
 	private int numCols = 16;
