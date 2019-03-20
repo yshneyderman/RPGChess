@@ -12,6 +12,7 @@ public class GameMain{
 	GamePanel p = new GamePanel();
 	c.add(p);
 	frame.pack();
+	//frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 	frame.setVisible(true);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

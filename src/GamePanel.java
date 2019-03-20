@@ -10,6 +10,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	//background forest
 	private ImageIcon forestBackGround = new ImageIcon("BG.PNG");
 	private ImageIcon startScreen = new ImageIcon("StartScreen.PNG");
+	private ImageIcon teamSelectScreen = new ImageIcon("TeamSelectScreen.PNG");
 	
 	private ImageIcon whiteHighlight = new ImageIcon("whiteHighlight.PNG");
 	private ImageIcon victoryBorder = new ImageIcon("VictoryBorder.PNG");
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int abilityY = 0;
 	private boolean highlightStartGame = false;
 	private boolean highlightTeamSelect = false;
+	private boolean highlightBack = false;
 	private boolean ability = false;
 	private boolean moveStarted = false;
 	private boolean attackStarted = false;
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private GamePiece markedPiece;
 	private boolean markPiece = false;
 	private boolean moveOrAttack = false;
+	private boolean endgame = false;
 	
 	//timer actionlistener
 	ActionListener timeTicked = new ActionListener() {
@@ -79,13 +82,52 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	//bulk of the graphics work - takes in graphics object and paints everything to the canvas
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(!game.isBegun()) {
+		if(!game.isBegun() && teamSelect == false) {
 			g.drawImage(startScreen.getImage(), 0, 0, 1900, 1000, this);
 			if(highlightStartGame) {
 				g.drawImage(whiteHighlight.getImage(), 460, 260, 990, 200, this);
 			}
 			else if(highlightTeamSelect) {
 				g.drawImage(whiteHighlight.getImage(), 560, 560, 800, 110, this);
+			}
+		}
+		else if(!game.isBegun() && teamSelect) {
+			g.drawImage(teamSelectScreen.getImage(), 0, 0, 1900, 1000, this);
+			if(highlightBack) {
+				g.drawImage(whiteHighlight.getImage(), 50, 30, 245, 70, this);
+			}
+			if(highlight) {
+				g.drawImage(whiteHighlight.getImage(), highlightX, highlightY, 80, 120, this);
+			}
+			//starting coords of the first option
+			int x = 70;
+			int y = 220;
+			//draws out all the options
+			for(int i = 0; i<10; ++i) {
+				GamePiece p =  game.characters[i];
+				g.setColor(Color.green);
+				g.fillRect(x, y, (p.getHealth()*70)/p.getMaxHealth(), 11);
+				g.setColor(Color.black);
+				g.setFont(new Font("Arial", 10, 9));
+				g.drawString(Integer.toString(p.getHealth()) + " / " + Integer.toString(p.getMaxHealth()), x+2, y+9);
+				g.setFont(new Font("Arial", 10, 10));
+				g.setColor(Color.white);
+				g.drawString(p.getName(), x, 95 + y);
+				g.drawString("Lvl: " + Integer.toString(p.getLevel()), x, 106 + y);
+				g.drawString("Dmg: " + Integer.toString(p.getDamage()), 30 + x, 106 + y);
+				g.drawImage(p.getImage().getImage(),3 + x, 25 + y - spriteAnimation, 60, 60+spriteAnimation, this);
+				g.drawString("XP: " + Integer.toString(p.getXP()), x, 117 + y);
+				//change this info when adding more units
+				if((i+1)%2==0) {
+					x = x + 281;
+				}
+				else {
+					x = x + 85;
+				}
+				if((i+1)%10 == 0) {
+					x = 70;
+					y = y + 132;
+				}
 			}
 		}
 		else if(game.isBegun()) {
@@ -108,7 +150,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.fillRect(1700, 650, 175, 190);
 			g.fillRect(1700, 850, 175, 125);
 			g.setColor(Color.white);
-			g.setFont(new Font("Ubuntu", 12, 12));
+			g.setFont(new Font("Arial", 12, 12));
 			g.drawString("Blue", 1710, 470);
 			g.drawString("Total Damage Dealt: " + game.blueDamageDealt(), 1710, 486);
 			g.setColor(Color.red);
@@ -137,7 +179,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			
 			//draw numbers for reference
 			g.setColor(Color.white);
-			g.setFont(new Font("Ubuntu", 12, 12));
+			g.setFont(new Font("Arial", 12, 12));
 			for (int i = 0; i < 16; i++) {
 				for (int j = 0; j < 12; j++) {
 					g.drawString(i + "," + j, 55 + (75 * i), 70 + (79 * j));
@@ -170,7 +212,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				GamePiece temp = game.getPiece(abilityX, abilityY);
 				g.drawImage(temp.getImage().getImage(), 1755, 32, 50, 50, this);
 				g.setColor(Color.white);
-				g.setFont(new Font("Ubuntu", 12, 12));
+				g.setFont(new Font("Arial", 12, 12));
 				g.drawString("Ability: " + temp.getAbilityName(), 1708, 96);
 				for(int i = 0; i < temp.getAbilityDescription().length; i++)
 				g.drawString(temp.getAbilityDescription()[i], 1708, 110+(12*i));
@@ -184,12 +226,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					g.setColor(Color.green);
 					g.fillRect(32 + p.getX()*75, 29 + p.getY()*79, (p.getHealth()*60)/p.getMaxHealth(), 11);
 					g.setColor(Color.black);
-					g.setFont(new Font("Ubuntu", 10, 9));
-					g.drawString(Integer.toString(p.getHealth()) + " / " + Integer.toString(p.getMaxHealth()), 32 + p.getX()*75, 37 + p.getY()*79);
-					g.setFont(new Font("Ubuntu", 10, 10));
+					g.setFont(new Font("Arial", 10, 9));
+					g.drawString(Integer.toString(p.getHealth()) + " / " + Integer.toString(p.getMaxHealth()), 34 + p.getX()*75, 38 + p.getY()*79);
+					g.setFont(new Font("Arial", 10, 10));
 					g.setColor(Color.white);
-					g.drawString("Lvl: " + Integer.toString(p.getLevel()), 30 + p.getX()*75, 100 + p.getY()*79);
-					g.drawString("Dmg: " + Integer.toString(p.getDamage()), 60 + p.getX()*75, 100 + p.getY()*79);
+					g.drawString("Lvl: " + Integer.toString(p.getLevel()), 29 + p.getX()*75, 100 + p.getY()*79);
+					g.drawString("Dmg: " + Integer.toString(p.getDamage()), 58 + p.getX()*75, 100 + p.getY()*79);
 					g.drawImage(p.getImage().getImage(),36 + p.getX()*75, 43 + p.getY()*79 - spriteAnimation, 50, 50+spriteAnimation, this);
 				}
 			}
@@ -197,9 +239,20 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//draw victory border and paint winner
 		if(game.isOver()) {
 			g.setColor(Color.white);
-			g.setFont(new Font("Ubuntu", 100, 100));
+			g.setFont(new Font("Arial", 100, 100));
 			g.drawImage(victoryBorder.getImage(),412, 212, 875, 575, this);
 			g.drawString(game.getWinner() + " Wins!", 600, 400);
+			if(!endgame) {
+				for(GamePiece p: game.board) {
+					p.setXP(p.getXP() + 1);
+				}
+				try {
+					game.writeGame();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			endgame = true;
 		}
 	}
 	
@@ -210,40 +263,59 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	//what to do if mouse is clicked
 	public void mouseClicked(MouseEvent e) {
-		//if player clicks start game
-		if(!game.isBegun() && e.getX() > 460 && e.getX() < 1440 && e.getY() > 260 && e.getY() < 465) {
-			game.beginGame();
+		//if game is not yet begun
+		if(!game.isBegun()) {
+			//if player clicks start game
+			if(!teamSelect && e.getX() > 460 && e.getX() < 1440 && e.getY() > 260 && e.getY() < 465) {
+				game.beginGame();
+			}
+			//if player clicks choose team
+			else if(!teamSelect && e.getX() > 560 && e.getX() < 1360 && e.getY() > 560 && e.getY() < 670) {
+				//go to choose team page
+				teamSelect = true;
+			}
+			//if exits teamselect
+			else if(teamSelect && e.getX() > 50 && e.getX() < 295 && e.getY() > 30 && e.getY() < 100) {
+				//sets teamselect to be false
+				highlightBack = false;
+				teamSelect = false;
+			}
 		}
-		//if player clicks choose team
-		if(!game.isBegun() && e.getX() > 560 && e.getX() < 1360 && e.getY() > 560 && e.getY() < 670) {
-			//go to choose team page
-			teamSelect = true;
+		//if game is already begun
+		else if(game.isBegun()){
+			//if player clicks a location on the board with a piece and has not yet marked a piece or started a move
+			if(game.getPiece(e.getX(),e.getY()) != null && moveStarted == false && attackStarted == false) {//player will start the move
+				moveOrAttack = true;
+				markedPiece = game.markPiece(e.getX(), e.getY());
+				markPiece = true;
+			}
+			//if player clicks location of the move button when he has a piece selected
+			else if(moveOrAttack == true && e.getX() >1706 && e.getY() > 372 && e.getX() < 1783 && e.getY() < 417) {
+				moveOrAttack = false;
+				moveStarted = true;
+			}
+			//if player clicks location of the attack button when he has a piece selected
+			else if(moveOrAttack == true && e.getX() >1791 && e.getY() > 372 && e.getX() < 1868 && e.getY() < 417) {
+				moveOrAttack = false;
+				attackStarted = true;
+			}
+			//if player has selected to attack and clicks a valid spot that has an opposite player on it
+			else if(moveOrAttack == false && attackStarted == true && game.getPiece(e.getX(),e.getY()) != null && game.isOpposite(markedPiece,game.getPiece(e.getX(),e.getY()))) {
+				game.attackPiece(e.getX(), e.getY());
+				resetMarkers();
+			}
+			//if player has selected to move and clicks a valid spot that does not already have a piece on it
+			else if(moveOrAttack == false && moveStarted && game.getPiece(e.getX(),e.getY()) == null && onBoard(e.getX(), e.getY())) {
+				game.movePiece(e.getX(), e.getY());
+				resetMarkers();
+			}
 		}
-		//if player clicks a location on the board with a piece and has not yet marked a piece or started a move
-		else if(game.getPiece(e.getX(),e.getY()) != null && moveStarted == false && attackStarted == false) {//player will start the move
-			moveOrAttack = true;
-			markedPiece = game.markPiece(e.getX(), e.getY());
-			markPiece = true;
-		}
-		//if player clicks location of the move button when he has a piece selected
-		else if(moveOrAttack == true && e.getX() >1706 && e.getY() > 372 && e.getX() < 1783 && e.getY() < 417) {
-			moveOrAttack = false;
-			moveStarted = true;
-		}
-		//if player clicks location of the attack button when he has a piece selected
-		else if(moveOrAttack == true && e.getX() >1791 && e.getY() > 372 && e.getX() < 1868 && e.getY() < 417) {
-			moveOrAttack = false;
-			attackStarted = true;
-		}
-		//if player has selected to attack and clicks a valid spot that has an opposite player on it
-		else if(moveOrAttack == false && attackStarted == true && game.getPiece(e.getX(),e.getY()) != null && game.isOpposite(markedPiece,game.getPiece(e.getX(),e.getY()))) {
-			game.attackPiece(e.getX(), e.getY());
-			resetMarkers();
-		}
-		//if player has selected to move and clicks a valid spot that does not already have a piece on it
-		else if(moveOrAttack == false && moveStarted && game.getPiece(e.getX(),e.getY()) == null && onBoard(e.getX(), e.getY())) {
-			game.movePiece(e.getX(), e.getY());
-			resetMarkers();
+		//if game is over
+		if(game.isOver()) {
+			if(e.getX() > 560 && e.getX() < 1360 && e.getY() > 560 && e.getY() < 670) {
+				game.restart();
+				endgame = false;
+			}
 		}
 		repaint();
 	}
@@ -260,15 +332,40 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 		//if moved on board
 		if(!game.isBegun()) {
-			if(e.getX() > 460 && e.getX() < 1440 && e.getY() > 260 && e.getY() < 465) {
-				highlightStartGame = true;
+			if(!teamSelect) {
+				if(e.getX() > 460 && e.getX() < 1440 && e.getY() > 260 && e.getY() < 465) {
+					highlightStartGame = true;
+					highlightTeamSelect = false;
+				}
+				else if(e.getX() > 560 && e.getX() < 1360 && e.getY() > 560 && e.getY() < 670) {
+					highlightTeamSelect = true;
+					highlightStartGame = false;
+				}
+				else {
+					highlightStartGame = false;
+					highlightTeamSelect = false;
+				}
 			}
-			else if(e.getX() > 560 && e.getX() < 1360 && e.getY() > 560 && e.getY() < 670) {
-				highlightTeamSelect = true;
-			}
-			else {
-				highlightStartGame = false;
-				highlightTeamSelect = false;
+			//if on the team select screen
+			else if(teamSelect) {
+				//if in the character selection area
+				if(e.getY() < 925 && e.getY() > 220 && e.getX() > 50 && e.getX() < 1850) {
+					highlightX = e.getX();
+					highlightY = e.getY();
+					highlight = true;
+					highlightBack = false;
+				}
+				//if clicking the button back
+				else if(e.getX() > 50 && e.getX() < 295 && e.getY() > 30 && e.getY() < 100) {
+					highlightBack = true;
+					highlight = false;
+					highlightStartGame = false;
+					highlightTeamSelect = false;
+				}
+				else {
+					highlight = false;
+					highlightBack = false;
+				}
 			}
 		}
 		else if(game.isBegun() && onBoard(e.getX(), e.getY())) {

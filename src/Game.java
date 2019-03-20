@@ -10,6 +10,7 @@ public class Game {
 	public boolean gameOver = false;
 	
 	public GamePiece[] board;
+	public GamePiece[] characters;
 	
 	GamePiece markedPiece = null;
 	private int redMax = 0;
@@ -32,11 +33,6 @@ public class Game {
 	
 	//checks updates conditions to move towards endgame
 	public void update() {
-		for(int i = 0; i < 10; i++) {
-			if(board[i] != null && board[i].getHealth() <= 0) {
-				board[i] = null;
-			}
-		}
 		if(blueCurTotalHealth() <= 0) {
 			endGame();
 			winner = "Red";
@@ -56,6 +52,26 @@ public class Game {
 	public void beginGame() {
 		gameBegun = true;
 		
+	}
+	
+	//restarts gane
+	public void restart() {
+		gameBegun = false;
+		gameOver = false;
+		board = new GamePiece[10];
+		//attempt to load the game
+		markedPiece = null;
+		redMax = 0;
+		blueMax = 0;
+		redDmg = 0;
+		blueDmg = 0;
+		winner= null;
+		try {
+			importPieces(board);
+		} catch (FileNotFoundException e) {
+			//default
+			e.printStackTrace();
+		}
 	}
 	
 	//returns true if game has started, false otherwise
@@ -134,28 +150,31 @@ public class Game {
 	//writes the game stats to a file
 	public void writeGame() throws FileNotFoundException {
 		PrintWriter write = new PrintWriter("save.txt");
-		write.write(1);
+		for(GamePiece p: characters) {
+			write.write(Integer.toString(p.getXP()) + "\n");
+		}
 		write.close();
 	}
 	
 	//imports the chosen pieces
 	public void importPieces(GamePiece[] board) throws FileNotFoundException {
 		//all possible gamePiece types
-		GamePiece mage = new GamePiece("Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "mage.PNG");
-		GamePiece sorcerer = new GamePiece("Blue", 2, 1, 110, 200, 1, new Ability("Incantation", null , 1, 0), "sorcerer.PNG");
-		GamePiece knight = new GamePiece("Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "knight.PNG");
-		GamePiece paladin = new GamePiece("Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "paladin.PNG");
-		GamePiece archer = new GamePiece("Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "archer.PNG");
-		GamePiece bowman = new GamePiece("Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "bowman.PNG");
-		GamePiece lord = new GamePiece("Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "lord.PNG");
-		GamePiece king = new GamePiece("Blue", 5, 0, 180, 15, 1, new Ability("Majesty", null, 1, 0), "king.PNG");
-		GamePiece assassin = new GamePiece("Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "assassin.PNG");
-		GamePiece thief = new GamePiece("Blue", 4, 1, 100, 30, 1, new Ability("Swipe", null, 1, 0), "thief.PNG");
-		GamePiece enemyMage = new GamePiece("Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "enemyMage.PNG");
-		GamePiece enemyKnight = new GamePiece("Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "enemyKnight.PNG");
-		GamePiece enemyArcher = new GamePiece("Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 0), "enemyArcher.PNG");
-		GamePiece enemyLord = new GamePiece("Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "enemyLord.PNG");
-		GamePiece enemyAssassin = new GamePiece("Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "enemyAssassin.PNG");
+		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "mage.PNG");
+		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 200, 1, new Ability("Incantation", null , 1, 0), "sorcerer.PNG");
+		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "knight.PNG");
+		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "paladin.PNG");
+		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "archer.PNG");
+		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "bowman.PNG");
+		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "lord.PNG");
+		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 15, 1, new Ability("Majesty", null, 1, 0), "king.PNG");
+		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "assassin.PNG");
+		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 100, 30, 1, new Ability("Swipe", null, 1, 0), "thief.PNG");
+		
+		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "enemyMage.PNG");
+		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "enemyKnight.PNG");
+		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 0), "enemyArcher.PNG");
+		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "enemyLord.PNG");
+		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "enemyAssassin.PNG");
 		
 		//sets ability descriptions for each type
 		mage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
@@ -168,23 +187,38 @@ public class Game {
 		king.updateAbilityDescription(new String[]{"Strikes down his foes", "dealing " + king.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
 		assassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + assassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		thief.updateAbilityDescription(new String[]{"Lashes out", "dealing " + thief.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
+		
 		enemyMage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		enemyKnight.updateAbilityDescription(new String[]{"Cleaves with the sword", "dealing " + knight.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
 		enemyArcher.updateAbilityDescription(new String[]{"Fires an arrow", "dealing " + archer.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
 		enemyLord.updateAbilityDescription(new String[]{"Calls a rain of glory", "dealing " + lord.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
 		enemyAssassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + assassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		
-		GamePiece[] options = {sorcerer, paladin, bowman, king, thief, enemyMage, enemyKnight, enemyArcher, enemyLord, enemyAssassin};
+		GamePiece[] options = {mage, sorcerer, archer, bowman, knight, paladin, assassin, thief, lord, king, enemyMage, enemyKnight, enemyArcher, enemyLord, enemyAssassin};
+		characters = options;
 		
-		//imports the 10 pieces and saves them in the board
-		FileReader read = new FileReader("importPieces.txt");
-		Scanner sc = new Scanner(read);
+
+		//imports the xp of the pieces
+		FileReader read1 = new FileReader("importPieces.txt");
+		Scanner sc1 = new Scanner(read1);
 		int index = 0;
-		while (sc.hasNextLine()) {
-			String lineArg = sc.nextLine();
+		while (sc1.hasNextLine()) {
+			String lineArg = sc1.nextLine();
 			board[index] = 	options[Integer.parseInt(lineArg)];
 			index++;
 		}
+		sc1.close();
+		
+		//imports the 10 pieces and saves them in the board
+		FileReader read2 = new FileReader("save.txt");
+		Scanner sc2 = new Scanner(read2);
+		index = 0;
+		while (sc2.hasNextLine()) {
+			String lineArg = sc2.nextLine();
+			options[index].setXP(Integer.parseInt(lineArg));
+			index++;
+		}
+		sc2.close();
 	}
 	
 	//sets the marked piece to be the one at the passed coordinates and returns it
