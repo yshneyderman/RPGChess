@@ -13,7 +13,7 @@ public class GamePiece {
 	private Ability ability;
 	private int damage;
 	private String team;
-	final int maxHealth;
+	private int maxHealth;
 	private String imageURL;
 	private String name;
 	private int xp;
@@ -22,10 +22,10 @@ public class GamePiece {
 	public GamePiece(String name, String team, int x, int y, int health, int damage, int level, Ability ability, String imageURL) {
 		this.team = team;
 		this.name = name;
-		this.health = health;
-		this.maxHealth = health;
+		this.health = health + health*(level/4);
+		this.maxHealth = health + health*(level/4);
 		this.level = level;
-		this.damage = damage;
+		this.damage = damage+damage*(level/3);
 		this.x = x;
 		this.y = y;
 		this.ability = ability;
@@ -129,11 +129,17 @@ public class GamePiece {
 	
 	public void setXP(int xp) {
 		this.xp = xp;
-		if(xp<180) {
-			this.setLevel(xp/20);
+		if(xp<160) {
+			this.setLevel(1 + xp/20);
+			this.setDamage(damage+damage*(level/3));
+			this.setHealth(health+health*(level/4));
+			maxHealth = this.getHealth();
 		}
 		else {
 			this.setLevel(9);
+			this.setDamage(damage+damage*(level/3));
+			this.setHealth(health+health*(level/4));
+			maxHealth = this.getHealth();
 		}
 	}
 	

@@ -105,7 +105,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int x = 85;
 			int y = 220;
 			//draws out all the options
-			for(int i = 0; i<10; ++i) {
+			for(int i = 0; i<20; ++i) {
 				GamePiece p =  game.characters[i];
 				g.setColor(Color.green);
 				g.fillRect(x, y, (p.getHealth()*70)/p.getMaxHealth(), 11);
@@ -123,15 +123,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.drawImage(p.getImage().getImage(),3 + x, 25 + y - spriteAnimation, 60, 60+spriteAnimation, this);
 				g.drawString("XP: " + Integer.toString(p.getXP()), x, 117 + y);
 				//change this info when adding more units
-				if((i+1)%2==0) {
-					x = x + 276;
+				if((i+1)%3==0) {
+					x = x + 184;
 				}
 				else {
 					x = x + 92;
 				}
-				if((i+1)%10 == 0) {
+				if((i+1)%15 == 0) {
 					x = 85;
-					y = y + 132;
+					y = y + 140;
 				}
 			}
 		}
@@ -286,7 +286,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				teamSelect = false;
 			}
 			else if(teamSelect && e.getY() < 920 && e.getY() > 220 && e.getX() > 50 && e.getX() < 1850 && (((e.getX()-85)/92)+1)%4 != 0) {
-				game.select((((e.getX()-85)/92)), ((e.getY()-220)/140));
+				game.select((((e.getX()-85)/92)), ((e.getY()-220)/140), game.characters);
 			}
 		}
 		//if game is already begun

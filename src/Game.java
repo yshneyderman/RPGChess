@@ -160,15 +160,20 @@ public class Game {
 	public void importPieces(GamePiece[] board) throws FileNotFoundException {
 		//all possible gamePiece types
 		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "images//mage.PNG");
-		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 200, 1, new Ability("Incantation", null , 1, 0), "images//sorcerer.PNG");
+		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 23, 1, new Ability("Incantation", null , 1, 0), "images//sorcerer.PNG");
+		GamePiece necromancer = new GamePiece("Necromancer", "Blue", 2, 1, 100, 25, 1, new Ability("Curse", null , 1, 0), "images//necromancer.PNG");
 		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//knight.PNG");
 		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "images//paladin.PNG");
+		GamePiece berserker = new GamePiece("Berserker", "Blue", 3, 0, 210, 13, 1, new Ability("Axe Fury", null, 1, 0), "images//Berserker.PNG");
 		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "images//archer.PNG");
 		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "images//bowman.PNG");
+		GamePiece sniper = new GamePiece("Sniper", "Blue", 4, 0, 90, 29, 1, new Ability("Snipe", null, 1, 0), "images//sniper.PNG");
 		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//lord.PNG");
-		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 15, 1, new Ability("Majesty", null, 1, 0), "images//king.PNG");
+		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 13, 1, new Ability("Majesty", null, 1, 0), "images//king.PNG");
+		GamePiece emperor = new GamePiece("Emperor","Blue", 5, 0, 190, 11, 1, new Ability("Might", null, 1, 0), "images//emperor.PNG");
 		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//assassin.PNG");
-		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 100, 30, 1, new Ability("Swipe", null, 1, 0), "images//thief.PNG");
+		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 90, 34, 1, new Ability("Swipe", null, 1, 0), "images//thief.PNG");
+		GamePiece shadow = new GamePiece("Shadow","Blue", 4, 1, 80, 40, 1, new Ability("Consume", null, 1, 0), "images//shadow.PNG");
 		
 		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "images//enemyMage.PNG");
 		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//enemyKnight.PNG");
@@ -179,22 +184,27 @@ public class Game {
 		//sets ability descriptions for each type
 		mage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		sorcerer.updateAbilityDescription(new String[]{"Summons an arcane bolt", "dealing " + sorcerer.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
+		necromancer.updateAbilityDescription(new String[]{"Casts dark magic", "dealing " + necromancer.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		knight.updateAbilityDescription(new String[]{"Cleaves with the sword", "dealing " + knight.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
 		paladin.updateAbilityDescription(new String[]{"Slams shield on ground", "dealing " + paladin.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
+		berserker.updateAbilityDescription(new String[]{"Twirls double axes", "dealing " + berserker.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
 		archer.updateAbilityDescription(new String[]{"Fires an arrow", "dealing " + archer.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
 		bowman.updateAbilityDescription(new String[]{"Fires a volley", "dealing " + bowman.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
+		sniper.updateAbilityDescription(new String[]{"Takes a shot", "dealing " + sniper.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
 		lord.updateAbilityDescription(new String[]{"Calls a rain of glory", "dealing " + lord.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
 		king.updateAbilityDescription(new String[]{"Strikes down his foes", "dealing " + king.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
+		emperor.updateAbilityDescription(new String[]{"Rends the earth nearby", "dealing " + emperor.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
 		assassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + assassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		thief.updateAbilityDescription(new String[]{"Lashes out", "dealing " + thief.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
+		shadow.updateAbilityDescription(new String[]{"Takes a bite", "dealing " + shadow.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		
-		enemyMage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
-		enemyKnight.updateAbilityDescription(new String[]{"Cleaves with the sword", "dealing " + knight.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
-		enemyArcher.updateAbilityDescription(new String[]{"Fires an arrow", "dealing " + archer.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
-		enemyLord.updateAbilityDescription(new String[]{"Calls a rain of glory", "dealing " + lord.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
-		enemyAssassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + assassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
+		enemyMage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + enemyMage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
+		enemyKnight.updateAbilityDescription(new String[]{"Cleaves with the sword", "dealing " + enemyKnight.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
+		enemyArcher.updateAbilityDescription(new String[]{"Fires an arrow", "dealing " + enemyArcher.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
+		enemyLord.updateAbilityDescription(new String[]{"Calls a rain of glory", "dealing " + enemyLord.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
+		enemyAssassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + enemyAssassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		
-		GamePiece[] options = {mage, sorcerer, archer, bowman, knight, paladin, assassin, thief, lord, king, enemyMage, enemyKnight, enemyArcher, enemyLord, enemyAssassin};
+		GamePiece[] options = {mage, sorcerer, necromancer, archer, bowman, sniper, knight, paladin, berserker, assassin, thief, shadow, lord, king, emperor, enemyMage, enemyKnight, enemyArcher, enemyLord, enemyAssassin};
 		characters = options;
 		
 
@@ -269,13 +279,15 @@ public class Game {
 		return(!piece1.getTeam().equals(piece2.getTeam()));
 	}
 
-	public void select(int i, int j) {
-		int index = 10*j + i-(i/3);
-		if(characters[index].isSelected()) {
-			characters[index].deselect(characters[index], characters, this, board);
-		}
-		else {
-			characters[index].select(characters[index], characters, this, board);	
+	public void select(int i, int j, GamePiece[] characters) {
+		int index = 15*j + (int)Math.round((0.178479 + 0.759665*i));
+		if(index < characters.length) {
+			if(characters[index].isSelected()) {
+				characters[index].deselect(characters[index], characters, this, board);
+			}
+			else {
+				characters[index].select(characters[index], characters, this, board);	
+			}
 		}
 	}
 }
