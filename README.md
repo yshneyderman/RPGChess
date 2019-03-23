@@ -8,10 +8,10 @@ RPGChess is a game that I am working on independently to be similar to chess (a 
 The game features 5 selectable classes (caster, ranged, warrior, rogue, and champion) and 15 different playable characters for a player vs. player turn based chess-style rpg game. Players will select which pieces they want to use in the game and play an opponent to level the pieces up and unlock improved stats and abilities. In the game, move your pieces around the board on your turn and attack your opponent's pieces until they have none remaining.
 
 Screenshot of the game:
-![GameScreenshot](GameScreenshot.png)
+![GameScreenshot](RPGChess/GameScreenshot.PNG)
 
 Screenshot of the character selection screen
-![TeamSelectScreenshot](TeamSelectScreenshot.png)
+![TeamSelectScreenshot](RPGChess/TeamSelectScreenshot.PNG)
 
 To Do:
 	1. Add more types of pieces and design their icons
