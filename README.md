@@ -11,7 +11,7 @@ Screenshot of the game:
 ![GameScreenshot](GameScreenshot.png)
 
 Screenshot of the character selection screen
-![TeamSelectScreenshot](TeamSelectScreenshot.png)
+![TeamSelectScreenshot](TeamSelectScreenshot.PNG)
 
 To Do:
 	1. Add more types of pieces and design their icons
