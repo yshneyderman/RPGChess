@@ -150,6 +150,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.fillRect(1700, 25, 175, 320);
 			g.fillRect(1700, 354, 175, 70);
 			
+			//move history background
+			g.fillRect(1255, 25, 420, 400);
+			g.setColor(Color.white);
+			g.setFont(new Font("Arial", 12, 12));
+			g.drawString("Move History", 1270, 47);
+			for(int i = 0; i<game.getMoves().size(); ++i) {
+				g.drawString(game.getMoves().get(i), 1270, 63+14*i);
+			}
+			
+			g.setColor(outline);
+			
 			//scorechart
 			g.fillRect(1700, 450, 175, 190);
 			g.fillRect(1700, 650, 175, 190);
@@ -218,9 +229,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.drawImage(temp.getImage().getImage(), 1755, 32, 50, 50, this);
 				g.setColor(Color.white);
 				g.setFont(new Font("Arial", 12, 12));
-				g.drawString("Ability: " + temp.getAbilityName(), 1708, 96);
+				g.drawString(temp.getName(), 1708, 96);
+				g.drawString("Ability: " + temp.getAbilityName(), 1708, 116);
 				for(int i = 0; i < temp.getAbilityDescription().length; i++)
-				g.drawString(temp.getAbilityDescription()[i], 1708, 110+(12*i));
+				g.drawString(temp.getAbilityDescription()[i], 1708, 129+(12*i));
 			}
 			
 			//healthbars, levels, attack, and characters
@@ -233,7 +245,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					g.setColor(Color.black);
 					g.setFont(new Font("Arial", 10, 9));
 					g.drawString(Integer.toString(p.getHealth()) + " / " + Integer.toString(p.getMaxHealth()), 34 + p.getX()*75, 38 + p.getY()*79);
-					g.setFont(new Font("Arial", 10, 10));
+					g.setFont(new Font("Arial", 9, 9));
 					g.setColor(Color.white);
 					g.drawString("Lvl: " + Integer.toString(p.getLevel()), 29 + p.getX()*75, 100 + p.getY()*79);
 					g.drawString("Dmg: " + Integer.toString(p.getDamage()), 58 + p.getX()*75, 100 + p.getY()*79);
@@ -292,7 +304,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//if game is already begun
 		else if(game.isBegun()){
 			//if player clicks a location on the board with a piece and has not yet marked a piece or started a move
-			if(game.getPiece(e.getX(),e.getY()) != null && moveStarted == false && attackStarted == false) {//player will start the move
+			if(game.getPiece(e.getX(),e.getY()) != null && moveStarted == false && attackStarted == false && game.getPiece(e.getX(),e.getY()).getTeamAsInt() == game.getTurn()) {//player will start the move
 				moveOrAttack = true;
 				markedPiece = game.markPiece(e.getX(), e.getY());
 				markPiece = true;

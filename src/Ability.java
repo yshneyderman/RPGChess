@@ -6,7 +6,7 @@ public class Ability {
 	private int level;
 	private int type;
 	
-	//ability constructor
+	//Ability constructor
 	public Ability(String name, String[] description, int level, int type) {
 		this.name = name;
 		this.description = description;

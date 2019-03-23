@@ -9,6 +9,7 @@ public class Game {
 	public boolean gameBegun = false;
 	public boolean gameOver = false;
 	
+	private ArrayList<String> moves;
 	public GamePiece[] board;
 	public GamePiece[] characters;
 	
@@ -18,10 +19,13 @@ public class Game {
 	private int redDmg = 0;
 	private int blueDmg = 0;
 	private String winner;
+	private int turn;
 	
 	public Game() {
 		//initializes the game
+		moves = new ArrayList<String>(1);
 		board = new GamePiece[10];
+		turn = 0;
 		//attempt to load the game
 		try {
 			importPieces(board);
@@ -41,8 +45,33 @@ public class Game {
 			endGame();
 			winner = "Blue";
 		}
+		if(turn == 0) {
+			turn = 1;
+		}
+		else {
+			turn = 0;
+		}
 	}
 	
+	//returns the most recent moves
+	public ArrayList<String> getMoves(){
+		return moves;
+	}
+	
+	//type 0 is move, type 1 is attack
+	public void updateMoves(int x, int y, GamePiece piece, int type) {
+		//move
+		if(type == 0) {
+			moves.add(piece.getTeam() + " moved " + piece.getName() + " from: " + Integer.toString(((x-25)/75)) +", " + Integer.toString(((x-25)/79)) + " to: " + Integer.toString(piece.getX()) +", " + Integer.toString(piece.getY()));
+		}
+		//attack
+		else {
+			moves.add(piece.getTeam() + " attacked " + getPiece(x, y).getName() + " with " + piece.getName() + " for " + piece.getDamage() + " damage");
+		}
+		if(moves.size() > 20) {
+			moves.remove(0);
+		}
+	}
 	//returns the winner of the game as a String
 	public String getWinner() {
 		return winner;
@@ -65,7 +94,9 @@ public class Game {
 		blueMax = 0;
 		redDmg = 0;
 		blueDmg = 0;
+		turn = 0;
 		winner= null;
+		moves.clear();
 		try {
 			importPieces(board);
 		} catch (FileNotFoundException e) {
@@ -253,6 +284,7 @@ public class Game {
 		if(markedPiece != null && getPiece(x,y) == null) {
 			markedPiece.setX(((x-25)/75));
 			markedPiece.setY(((y-25)/79));
+			updateMoves(x,y,markedPiece,0);
 			markedPiece = null;
 		}
 	}
@@ -261,6 +293,7 @@ public class Game {
 	public void attackPiece(int x, int y) {
 		if(markedPiece != null && getPiece(x,y) != null) {
 			int dmg = markedPiece.getDamage();
+			updateMoves(x,y,markedPiece,1);
 			if(markedPiece.getTeam().equals("Blue")) {
 				blueDmg += dmg;
 			}
@@ -272,6 +305,11 @@ public class Game {
 			update();
 			markedPiece = null;
 		}
+	}
+	
+	//returns 0 for blue and 1 for red
+	public int getTurn() {
+		return turn;
 	}
 	
 	//returns true if the two passed pieces are different colors, false if they are the same color
