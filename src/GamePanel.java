@@ -195,7 +195,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			
 			//draw numbers for reference
 			g.setColor(Color.white);
-			g.setFont(new Font("Arial", 12, 12));
+			g.setFont(new Font("Arial", 10, 10));
 			for (int i = 0; i < 16; i++) {
 				for (int j = 0; j < 12; j++) {
 					g.drawString(i + "," + j, 55 + (75 * i), 70 + (79 * j));
@@ -320,13 +320,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				attackStarted = true;
 			}
 			//if player has selected to attack and clicks a valid spot that has an opposite player on it
-			else if(moveOrAttack == false && attackStarted == true && game.getPiece(e.getX(),e.getY()) != null && game.isOpposite(markedPiece,game.getPiece(e.getX(),e.getY()))) {
+			else if(moveOrAttack == false && attackStarted == true && game.getPiece(e.getX(),e.getY()) != null && game.isValidAttack(markedPiece,game.getPiece(e.getX(),e.getY()))) {
 				game.attackPiece(e.getX(), e.getY());
 				resetMarkers();
 			}
 			//if player has selected to move and clicks a valid spot that does not already have a piece on it
-			else if(moveOrAttack == false && moveStarted && game.getPiece(e.getX(),e.getY()) == null && onBoard(e.getX(), e.getY())) {
+			else if(moveOrAttack == false && moveStarted && game.getPiece(e.getX(),e.getY()) == null && game.isValidMove(e.getX(), e.getY(), markedPiece) && onBoard(e.getX(), e.getY())) {
 				game.movePiece(e.getX(), e.getY());
+				resetMarkers();
+			}
+			else {
 				resetMarkers();
 			}
 		}

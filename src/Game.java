@@ -1,3 +1,4 @@
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -62,7 +63,7 @@ public class Game {
 	public void updateMoves(int x, int y, GamePiece piece, int type) {
 		//move
 		if(type == 0) {
-			moves.add(piece.getTeam() + " moved " + piece.getName() + " from: " + Integer.toString(((x-25)/75)) +", " + Integer.toString(((x-25)/79)) + " to: " + Integer.toString(piece.getX()) +", " + Integer.toString(piece.getY()));
+			moves.add(piece.getTeam() + " moved " + piece.getName() + " from: " + Integer.toString(x) +", " + Integer.toString(y) + " to: " + Integer.toString(piece.getX()) +", " + Integer.toString(piece.getY()));
 		}
 		//attack
 		else {
@@ -190,27 +191,28 @@ public class Game {
 	//imports the chosen pieces
 	public void importPieces(GamePiece[] board) throws FileNotFoundException {
 		//all possible gamePiece types
-		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 0), "images//mage.PNG");
-		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 23, 1, new Ability("Incantation", null , 1, 0), "images//sorcerer.PNG");
-		GamePiece necromancer = new GamePiece("Necromancer", "Blue", 2, 1, 100, 25, 1, new Ability("Curse", null , 1, 0), "images//necromancer.PNG");
-		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//knight.PNG");
-		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 0), "images//paladin.PNG");
-		GamePiece berserker = new GamePiece("Berserker", "Blue", 3, 0, 210, 13, 1, new Ability("Axe Fury", null, 1, 0), "images//Berserker.PNG");
-		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 0), "images//archer.PNG");
-		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 0), "images//bowman.PNG");
-		GamePiece sniper = new GamePiece("Sniper", "Blue", 4, 0, 90, 29, 1, new Ability("Snipe", null, 1, 0), "images//sniper.PNG");
-		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//lord.PNG");
-		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 13, 1, new Ability("Majesty", null, 1, 0), "images//king.PNG");
-		GamePiece emperor = new GamePiece("Emperor","Blue", 5, 0, 190, 11, 1, new Ability("Might", null, 1, 0), "images//emperor.PNG");
-		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//assassin.PNG");
-		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 90, 34, 1, new Ability("Swipe", null, 1, 0), "images//thief.PNG");
-		GamePiece shadow = new GamePiece("Shadow","Blue", 4, 1, 80, 40, 1, new Ability("Consume", null, 1, 0), "images//shadow.PNG");
+		GamePiece mage = new GamePiece("Mage", "Blue", 2, 1, 130, 20, 1, new Ability("Fireball", null , 1, 1), "images//mage.PNG", 0);
+		GamePiece sorcerer = new GamePiece("Sorcerer", "Blue", 2, 1, 110, 23, 1, new Ability("Incantation", null , 1, 1), "images//sorcerer.PNG", 0);
+		GamePiece necromancer = new GamePiece("Necromancer", "Blue", 2, 1, 100, 25, 1, new Ability("Curse", null , 1, 1), "images//necromancer.PNG", 0);
+		GamePiece knight = new GamePiece("Knight", "Blue", 3, 0, 230, 10, 1, new Ability("Slash", null, 1, 3), "images//knight.PNG", 0);
+		GamePiece paladin = new GamePiece("Paladin", "Blue", 3, 0, 250, 8, 1, new Ability("Shield Bash", null, 1, 3), "images//paladin.PNG", 0);
+		GamePiece berserker = new GamePiece("Berserker", "Blue", 3, 0, 210, 13, 1, new Ability("Axe Fury", null, 1, 3), "images//Berserker.PNG", 0);
+		GamePiece archer = new GamePiece("Archer", "Blue", 4, 0, 140, 20, 1, new Ability("Arrow", null, 1, 2), "images//archer.PNG", 0);
+		GamePiece bowman = new GamePiece("Bowman", "Blue", 4, 0, 130, 25, 1, new Ability("Volley", null, 1, 2), "images//bowman.PNG", 0);
+		GamePiece sniper = new GamePiece("Sniper", "Blue", 4, 0, 90, 29, 1, new Ability("Snipe", null, 1, 2), "images//sniper.PNG", 0);
+		GamePiece lord = new GamePiece("Lord", "Blue", 5, 0, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//lord.PNG", 0);
+		GamePiece king = new GamePiece("King","Blue", 5, 0, 180, 13, 1, new Ability("Majesty", null, 1, 0), "images//king.PNG", 0);
+		GamePiece emperor = new GamePiece("Emperor","Blue", 5, 0, 190, 11, 1, new Ability("Might", null, 1, 0), "images//emperor.PNG", 0);
+		GamePiece assassin = new GamePiece("Assassin", "Blue", 4, 1, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//assassin.PNG", 1);
+		GamePiece thief = new GamePiece("Thief","Blue", 4, 1, 90, 34, 1, new Ability("Swipe", null, 1, 0), "images//thief.PNG", 1);
+		GamePiece shadow = new GamePiece("Shadow","Blue", 4, 1, 80, 40, 1, new Ability("Consume", null, 1, 0), "images//shadow.PNG", 1);
 		
-		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 0), "images//enemyMage.PNG");
-		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 0), "images//enemyKnight.PNG");
-		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 0), "images//enemyArcher.PNG");
-		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//enemyLord.PNG");
-		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//enemyAssassin.PNG");
+		//enemy pieces
+		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 1), "images//enemyMage.PNG", 0);
+		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 3), "images//enemyKnight.PNG", 0);
+		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 2), "images//enemyArcher.PNG", 0);
+		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//enemyLord.PNG", 0);
+		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//enemyAssassin.PNG", 1);
 		
 		//sets ability descriptions for each type
 		mage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
@@ -281,10 +283,12 @@ public class Game {
 	
 	//moves the markedPiece to the passed coordinates
 	public void movePiece(int x, int y) {
+		int xOld = markedPiece.getX();
+		int yOld = markedPiece.getY();
 		if(markedPiece != null && getPiece(x,y) == null) {
 			markedPiece.setX(((x-25)/75));
 			markedPiece.setY(((y-25)/79));
-			updateMoves(x,y,markedPiece,0);
+			updateMoves(xOld,yOld,markedPiece,0);
 			markedPiece = null;
 		}
 	}
@@ -313,8 +317,23 @@ public class Game {
 	}
 	
 	//returns true if the two passed pieces are different colors, false if they are the same color
-	public boolean isOpposite(GamePiece piece1, GamePiece piece2) {
-		return(!piece1.getTeam().equals(piece2.getTeam()));
+	public boolean isValidAttack(GamePiece piece1, GamePiece piece2) {
+		if(!piece1.getTeam().equals(piece2.getTeam())) {
+			//range or melee of 1
+			if((piece1.getAbilityType() == 0 || piece1.getAbilityType() == 3) && Math.abs(piece1.getX() - piece2.getX()) <= 1 && Math.abs(piece1.getY() - piece2.getY()) <= 1) {
+				return true;
+			}
+			//ranged of range 2
+			else if(piece1.getAbilityType() == 1 && Math.abs(piece1.getX() - piece2.getX()) <= 2 && Math.abs(piece1.getY() - piece2.getY()) <= 2) {
+				return true;
+			}
+			//ranged of range 3
+			else if(piece1.getAbilityType() == 2 && Math.abs(piece1.getX() - piece2.getX()) <= 3 && Math.abs(piece1.getY() - piece2.getY()) <= 3) {
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
 	public void select(int i, int j, GamePiece[] characters) {
@@ -327,5 +346,23 @@ public class Game {
 				characters[index].select(characters[index], characters, this, board);	
 			}
 		}
+	}
+
+	//returns true if the x,y location is a valid move for the given piece considering the spot is empty already
+	public boolean isValidMove(int x, int y, GamePiece piece) {
+		x=(x-25)/75;
+		y=(y-25)/79;
+		if(piece != null) {
+			//default moveType of 1 square in any direction
+			if(piece.getMoveType() == 0 && Math.abs(piece.getX()-x) <= 1 && Math.abs(piece.getY()-y) <= 1) {
+				return true;
+			}
+			//movetype of 2 squares in any direction// jumps over other pieces
+			else if(piece.getMoveType() == 1 && Math.abs(piece.getX()-x) <= 2 && Math.abs(piece.getY()-y) <= 2) {
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 }

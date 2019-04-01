@@ -18,9 +18,10 @@ public class GamePiece {
 	private String name;
 	private int xp;
 	private boolean selected;
+	private int moveType;
 	
 	//GamePiece constructor
-	public GamePiece(String name, String team, int x, int y, int health, int damage, int level, Ability ability, String imageURL) {
+	public GamePiece(String name, String team, int x, int y, int health, int damage, int level, Ability ability, String imageURL, int moveType) {
 		this.team = team;
 		this.name = name;
 		this.health = health + health*(level/4);
@@ -33,6 +34,7 @@ public class GamePiece {
 		this.imageURL = imageURL;
 		this.xp = 0;
 		this.selected = false;
+		this.moveType = moveType;
 	}
 	
 	//return the name of the piece (ie. "Archer")
@@ -157,6 +159,11 @@ public class GamePiece {
 	//returns the xp as an int
 	public int getXP() {
 		return xp;
+	}
+	
+	//returns the moveType of the piece so we can tell how it will move: line, jump, one, etc.
+	public int getMoveType() {
+		return moveType;
 	}
 	
 	//sets the xp of the piece and updates its health and damage based on that score

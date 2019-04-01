@@ -22,3 +22,4 @@ To Do:
 6. Add items to equip to pieces
 7. Add a player figure (selectable)
 8. Add profiles for players
+9. Make notification for when player makes an invalid move
