@@ -25,7 +25,7 @@ public class Game {
 	public Game() {
 		//initializes the game
 		moves = new ArrayList<String>(1);
-		board = new GamePiece[10];
+		board = new GamePiece[20];
 		turn = 0;
 		//attempt to load the game
 		try {
@@ -65,6 +65,10 @@ public class Game {
 		if(type == 0) {
 			moves.add(piece.getTeam() + " moved " + piece.getName() + " from: " + Integer.toString(x) +", " + Integer.toString(y) + " to: " + Integer.toString(piece.getX()) +", " + Integer.toString(piece.getY()));
 		}
+		//invalid move
+		else if(type == 1) {
+			moves.add("Invalid move");
+		}
 		//attack
 		else {
 			moves.add(piece.getTeam() + " attacked " + getPiece(x, y).getName() + " with " + piece.getName() + " for " + piece.getDamage() + " damage");
@@ -88,7 +92,7 @@ public class Game {
 	public void restart() {
 		gameBegun = false;
 		gameOver = false;
-		board = new GamePiece[10];
+		board = new GamePiece[20];
 		//attempt to load the game
 		markedPiece = null;
 		redMax = 0;
@@ -134,7 +138,7 @@ public class Game {
 	//returns int of the total remaining health of all blue characters
 	public int blueCurTotalHealth() {
 		int sum = 0;
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 10; i++) {
 			if(board[i] != null && board[i].isAlive()) {
 				sum += board[i].getHealth();
 			}
@@ -148,7 +152,7 @@ public class Game {
 			return blueMax;
 		}
 		int sum = 0;
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 10; i++) {
 			sum += board[i].getMaxHealth();
 		}
 		blueMax = sum;
@@ -158,7 +162,7 @@ public class Game {
 	//returns int of the total remaining health of all red characters
 	public int redCurTotalHealth() {
 		int sum = 0;
-		for(int i = 5; i < 10; i++) {
+		for(int i = 10; i < 20; i++) {
 			if(board[i] != null && board[i].isAlive()) {
 				sum += board[i].getHealth();
 			}
@@ -172,7 +176,7 @@ public class Game {
 			return redMax;
 		}
 		int sum = 0;
-		for(int i = 5; i < 10; i++) {
+		for(int i = 10; i < 20; i++) {
 			sum += board[i].getMaxHealth();
 		}
 		redMax = sum;
@@ -209,12 +213,17 @@ public class Game {
 		
 		//enemy pieces
 		GamePiece enemyMage = new GamePiece("Enemy Mage","Red", 2, 11, 130, 20, 1, new Ability("Fireball", null, 1, 1), "images//enemyMage.PNG", 0);
+		GamePiece enemySorcerer = new GamePiece("Enemy Sorcerer", "Red", 2, 11, 110, 23, 1, new Ability("Incantation", null , 1, 1), "images//enemySorcerer.PNG", 0);
 		GamePiece enemyKnight = new GamePiece("Enemy Knight", "Red", 3, 10, 230, 10, 1, new Ability("Slash", null, 1, 3), "images//enemyKnight.PNG", 0);
+		GamePiece enemyPaladin = new GamePiece("Enemy Paladin", "Red", 3, 10, 250, 8, 1, new Ability("Shield Bash", null, 1, 3), "images//enemyPaladin.PNG", 0);
 		GamePiece enemyArcher = new GamePiece("Enemy Archer", "Red", 4, 10, 140, 20, 1, new Ability("Arrow", null, 1, 2), "images//enemyArcher.PNG", 0);
+		GamePiece enemyBowman = new GamePiece("Enemy Bowman", "Red", 4, 10, 130, 25, 1, new Ability("Volley", null, 1, 2), "images//enemyBowman.PNG", 0);
 		GamePiece enemyLord = new GamePiece("Enemy Lord", "Red", 5, 10, 170, 15, 1, new Ability("Glory", null, 1, 0), "images//enemyLord.PNG", 0);
+		GamePiece enemyKing = new GamePiece("Enemy King","Red", 5, 10, 180, 13, 1, new Ability("Majesty", null, 1, 0), "images//enemyKing.PNG", 0);
 		GamePiece enemyAssassin = new GamePiece("Enemy Assassin","Red", 4, 11, 100, 30, 1, new Ability("Knife", null, 1, 0), "images//enemyAssassin.PNG", 1);
+		GamePiece enemyThief = new GamePiece("Enemy Thief","Red", 4, 11, 90, 34, 1, new Ability("Swipe", null, 1, 0), "images//enemyThief.PNG", 1);
 		
-		//sets ability descriptions for each type
+		//sets ability1 descriptions for each type
 		mage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + mage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		sorcerer.updateAbilityDescription(new String[]{"Summons an arcane bolt", "dealing " + sorcerer.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		necromancer.updateAbilityDescription(new String[]{"Casts dark magic", "dealing " + necromancer.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
@@ -232,12 +241,17 @@ public class Game {
 		shadow.updateAbilityDescription(new String[]{"Takes a bite", "dealing " + shadow.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		
 		enemyMage.updateAbilityDescription(new String[]{"Casts a fireball", "dealing " + enemyMage.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
+		enemySorcerer.updateAbilityDescription(new String[]{"Summons an arcane bolt", "dealing " + enemySorcerer.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Range & Damage", "Cons: Med. Health"});
 		enemyKnight.updateAbilityDescription(new String[]{"Cleaves with the sword", "dealing " + enemyKnight.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
+		enemyPaladin.updateAbilityDescription(new String[]{"Slams shield on ground", "dealing " + enemyPaladin.getDamage() + " damage to", "the target location", "\n", "Pros: High Health & AOE", "Cons: Low Damage"});
 		enemyArcher.updateAbilityDescription(new String[]{"Fires an arrow", "dealing " + enemyArcher.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
+		enemyBowman.updateAbilityDescription(new String[]{"Fires a volley", "dealing " + enemyBowman.getDamage() + " damage to", "the target location", "\n", "Pros: High Range", "Cons: Low Health"});
 		enemyLord.updateAbilityDescription(new String[]{"Calls a rain of glory", "dealing " + enemyLord.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
+		enemyKing.updateAbilityDescription(new String[]{"Strikes down his foes", "dealing " + enemyKing.getDamage() + " damage to", "the target location", "\n", "Pros: Med. Damage & AOE", "Cons: Med. Health"});
 		enemyAssassin.updateAbilityDescription(new String[]{"Stabs with a knife", "dealing " + enemyAssassin.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
+		enemyThief.updateAbilityDescription(new String[]{"Lashes out", "dealing " + enemyThief.getDamage() + " damage to", "the target location", "\n", "Pros: High Damage", "Cons: Low Health"});
 		
-		GamePiece[] options = {mage, sorcerer, necromancer, archer, bowman, sniper, knight, paladin, berserker, assassin, thief, shadow, lord, king, emperor, enemyMage, enemyKnight, enemyArcher, enemyLord, enemyAssassin};
+		GamePiece[] options = {mage, sorcerer, necromancer, archer, bowman, sniper, knight, paladin, berserker, assassin, thief, shadow, lord, king, emperor, enemyMage, enemySorcerer, enemyKnight, enemyPaladin, enemyArcher, enemyBowman, enemyAssassin, enemyThief, enemyLord, enemyKing};
 		characters = options;
 		
 
@@ -253,7 +267,7 @@ public class Game {
 		}
 		sc1.close();
 		
-		//imports thhe xp of all the pieces
+		//imports the xp of all the pieces
 		FileReader read2 = new FileReader("save.txt");
 		Scanner sc2 = new Scanner(read2);
 		index = 0;
@@ -263,6 +277,22 @@ public class Game {
 			index++;
 		}
 		sc2.close();
+		
+		int boardLocationBlue = 3;
+		int boardLocationRed = 12;
+		//sets the xy coords of all the pieces
+		for(GamePiece p: board) {
+			if(p.getTeamAsInt() == 0) {
+				p.setY(0);
+				p.setX(boardLocationBlue);
+				boardLocationBlue++;
+			}
+			else {
+				p.setY(11);
+				p.setX(boardLocationRed);
+				boardLocationRed--;
+			}
+		}
 	}
 	
 	//sets the marked piece to be the one at the passed coordinates and returns it
@@ -274,7 +304,7 @@ public class Game {
 	//returns the piece at the coordinates
 	public GamePiece getPiece(int x, int y) {
 		for(GamePiece p: board) {
-			if(p != null && p.getX() == ((x-25)/75) && p.getY() == ((y-25)/79)) {
+			if(p != null && p.isAlive() && p.getX() == ((x-25)/75) && p.getY() == ((y-25)/79)) {
 				return p;
 			}
 		}
@@ -293,11 +323,33 @@ public class Game {
 		}
 	}
 	
-	//attack the piece at the coordinates from the markedPiece
+	//handles all the different attack types and calls attackCoords for each location targeted
 	public void attackPiece(int x, int y) {
-		if(markedPiece != null && getPiece(x,y) != null) {
+		//single spot abilities
+		if(markedPiece.getAbilityType() == 0 || markedPiece.getAbilityType() == 1 || markedPiece.getAbilityType() == 2) {
+			attackCoords(x,y);
+		}
+		//melee aoe all around central location of the markedPiece
+		else if(markedPiece.getAbilityType() == 3) {
+			for(int i = -1; i <= 1; ++i) {
+				for(int j = -1; j <= 1; ++j) {
+					if((markedPiece.getX()*75)+25+75*i >= 0 && (markedPiece.getX()*75)+25+75*i <= 1225 && (markedPiece.getY()*79)+25+79*j >= 0 && (markedPiece.getY()*79)+25+79*j <= 974) {
+						x = (markedPiece.getX()*75)+25 +75*i;
+						y = (markedPiece.getY()*79)+25+79*j;
+						attackCoords(x, y);
+					}
+				}
+			}
+		}
+		markedPiece = null;
+		update();
+	}
+	
+	//attack the piece at the coordinates from the markedPiece
+	public void attackCoords(int x, int y) {
+		if(markedPiece != null && getPiece(x,y) != null && markedPiece.getTeamAsInt() != getPiece(x,y).getTeamAsInt()) {
 			int dmg = markedPiece.getDamage();
-			updateMoves(x,y,markedPiece,1);
+			updateMoves(x,y,markedPiece,2);
 			if(markedPiece.getTeam().equals("Blue")) {
 				blueDmg += dmg;
 			}
@@ -306,8 +358,6 @@ public class Game {
 			}
 			GamePiece curr = getPiece(x,y);
 			curr.setHealth(curr.getHealth() - dmg);
-			update();
-			markedPiece = null;
 		}
 	}
 	
@@ -318,8 +368,11 @@ public class Game {
 	
 	//returns true if the two passed pieces are different colors, false if they are the same color
 	public boolean isValidAttack(GamePiece piece1, GamePiece piece2) {
+		if(piece1 == null || piece2 == null) {
+			return false;
+		}
 		if(!piece1.getTeam().equals(piece2.getTeam())) {
-			//range or melee of 1
+			//range or melee of 1 or aoe melee of 1
 			if((piece1.getAbilityType() == 0 || piece1.getAbilityType() == 3) && Math.abs(piece1.getX() - piece2.getX()) <= 1 && Math.abs(piece1.getY() - piece2.getY()) <= 1) {
 				return true;
 			}

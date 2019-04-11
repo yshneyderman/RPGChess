@@ -105,7 +105,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int x = 85;
 			int y = 220;
 			//draws out all the options
-			for(int i = 0; i<20; ++i) {
+			for(int i = 0; i<game.characters.length; ++i) {
 				GamePiece p =  game.characters[i];
 				g.setColor(Color.green);
 				g.fillRect(x, y, (p.getHealth()*70)/p.getMaxHealth(), 11);
@@ -320,13 +320,23 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				attackStarted = true;
 			}
 			//if player has selected to attack and clicks a valid spot that has an opposite player on it
-			else if(moveOrAttack == false && attackStarted == true && game.getPiece(e.getX(),e.getY()) != null && game.isValidAttack(markedPiece,game.getPiece(e.getX(),e.getY()))) {
+			else if(moveOrAttack == false && attackStarted && game.getPiece(e.getX(),e.getY()) != null && game.isValidAttack(markedPiece,game.getPiece(e.getX(),e.getY()))) {
 				game.attackPiece(e.getX(), e.getY());
 				resetMarkers();
 			}
 			//if player has selected to move and clicks a valid spot that does not already have a piece on it
 			else if(moveOrAttack == false && moveStarted && game.getPiece(e.getX(),e.getY()) == null && game.isValidMove(e.getX(), e.getY(), markedPiece) && onBoard(e.getX(), e.getY())) {
 				game.movePiece(e.getX(), e.getY());
+				resetMarkers();
+			}
+			//if player has selected to move and clicks an invalid spot
+			else if(moveOrAttack == false && moveStarted && (game.getPiece(e.getX(),e.getY()) != null || !game.isValidMove(e.getX(), e.getY(), markedPiece)) && onBoard(e.getX(), e.getY())) {
+				game.updateMoves(e.getX(), e.getY(), markedPiece, 1);
+				resetMarkers();
+			}
+			//if player has selected to attack and clicks an invalid spot
+			else if(moveOrAttack == false && attackStarted && (game.getPiece(e.getX(),e.getY()) != null || !game.isValidAttack(markedPiece,game.getPiece(e.getX(),e.getY()))) && onBoard(e.getX(), e.getY())) {
+				game.updateMoves(e.getX(), e.getY(), markedPiece, 1);
 				resetMarkers();
 			}
 			else {
